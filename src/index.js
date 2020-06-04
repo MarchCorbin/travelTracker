@@ -9,9 +9,12 @@ import './images/turing-logo.png'
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
+const loginWindow = document.querySelector('.login-window')
 const loginUserName = document.querySelector('.login-username')
 const loginPassword = document.querySelector('.login-password')
 const loginBtn = document.querySelector('.login-btn')
+const travelerDash = document.querySelector('.traveler-dash')
+const agencyDash = document.querySelector('.agency-dash')
 
 loginBtn.addEventListener('click', login)
 
@@ -32,14 +35,17 @@ function login() {
   }
 }
 
-
+function offLogin(destination) {
+loginWindow.classList.add('hide')
+destination.classList.remove('hide')
+}
 
 function agencyLogin() {
-
+offLogin(agencyDash)
 }
 
 function travelerLogin() {
-
+offLogin(travelerDash)
 }
 
 // username: agency
