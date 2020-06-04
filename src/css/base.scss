@@ -4,4 +4,35 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
 
 body {
   background: $primary-background;
+  display: flex;
+  justify-content: center;
+}
+
+.login-window {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom right, #B3ACAC 0%, #CCFFFF 91%);
+  height: 450px;
+  width: 450px;
+  justify-content: space-evenly;
+  padding: 25px;
+}
+
+.text-holder {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-text {
+  display: inline-block;
+  align-self: center;
+}
+
+.login-username, .login-password, .login-btn {
+  font-size: 30px;
+  height: 35px;
+}
+
+.hide {
+  display: none;
 }
