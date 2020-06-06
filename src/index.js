@@ -71,8 +71,10 @@ function createTravelersRepo(travelersData) {
 
 function createNewUser(data) {
   let user = new User(data)
+  domUpdates.welcomeMsg(user)
   getPastTrips(data.id, user)
 }
+
 
 function createDestinationRepo(destinations) {
 allDestinations = destinations
@@ -89,7 +91,7 @@ function createTripRepo(data) {
   tripRepo = new TripRepo(data)
 }
 
-
+// LOG IN
 function login() {
   let name = loginUserName.value
   let password = loginPassword.value
@@ -113,7 +115,8 @@ function agencyLogin() {
 }
 
 function travelerLogin() {
-  let id = loginUserName.value.slice(-2)
+  let id = loginUserName.value.slice(8)
+  console.log(id, 'id')
   offLogin(travelerDash)
   getSingleUser(id)
   getAllDestinations()
