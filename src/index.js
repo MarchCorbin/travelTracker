@@ -71,8 +71,9 @@ function createTravelersRepo(travelersData) {
 
 function createNewUser(data) {
   let user = new User(data)
-  domUpdates.welcomeMsg(user)
   getPastTrips(data.id, user)
+  domUpdates.welcomeMsg(user)
+  user.oraganizeTime()
 }
 
 
@@ -83,12 +84,13 @@ allDestinations = destinations
 function getPastTrips(id, user) {
   let alltrips = tripRepo.allTrips
   let filtered = alltrips.filter(trip => trip.userID === id)
-  user.addPastTrips(filtered)
+  user.allTrips = filtered
   domUpdates.showPastTrips(user, allDestinations)
 }
 
 function createTripRepo(data) {
   tripRepo = new TripRepo(data)
+
 }
 
 // LOG IN
@@ -116,7 +118,6 @@ function agencyLogin() {
 
 function travelerLogin() {
   let id = loginUserName.value.slice(8)
-  console.log(id, 'id')
   offLogin(travelerDash)
   getSingleUser(id)
   getAllDestinations()
