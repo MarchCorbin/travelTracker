@@ -9,8 +9,10 @@ class User {
 
   }
 
-  filterTrips(searchType, searchValue) {
-
+  addPastTrips(flights) {
+    if (flights.status !== 'pending') {
+      this.pastTrips.push(flights)
+    }
   }
 
   requestTrip(date, duration, numberOfTravelers) {

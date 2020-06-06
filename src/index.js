@@ -2,10 +2,15 @@
 // Do not delete or rename this file ********
 
 // An example of how you tell webpack to use a CSS (SCSS) file
+var User = require('./User.js')
+var TravelerRepo = require('./Traveler-repo.js')
+var TripRepo = require('./Trip-repo.js')
 import './css/base.scss';
+
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
+import domUpdates from './DomUpdates';
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
@@ -17,11 +22,73 @@ const travelerDash = document.querySelector('.traveler-dash')
 const agencyDash = document.querySelector('.agency-dash')
 
 loginBtn.addEventListener('click', login)
+let user;
+let travelerRepo;
+let tripRepo;
+let allDestinations;
 
+document.onLoad = onLoadHandler()
 
-function fetchData() {
+function onLoadHandler() {
+  getAllTrips()
+  getAllDestinations()
+  getAllTravelers()
+}
+
+function getAllTrips() {
+  fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/trips/trips')
+    .then(response => response.json())
+    .then(trip => createTripRepo(trip.trips))
+    .catch(err => console.error(err.message))
+}
+
+function getAllTravelers() {
+  fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/travelers/travelers')
+    .then(response => response.json())
+    .then(data => createTravelersRepo(data.travelers))
+    .catch(err => console.error(err.message))
+}
+
+function getSingleUser(id) {
+  fetch(`https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/travelers/travelers/${id}`)
+    .then(response => response.json())
+    .then(data => createNewUser(data))
+    .catch(err => console.error(err.message))
+}
+
+function getAllDestinations() {
+  fetch(`https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/destinations/destinations`)
+    .then(response => response.json())
+    .then(data => createDestinationRepo(data.destinations))
+    .catch(err => console.error(err.message))
+}
+
+function createTravelersRepo(travelersData) {
+  const travelersRepo = new TravelerRepo(travelersData)
+  domUpdates.getAllTrips(travelersRepo)
 
 }
+
+function createNewUser(data) {
+  let user = new User(data)
+  getPastTrips(data.id, user)
+}
+
+function createDestinationRepo(destinations) {
+allDestinations = destinations
+}
+
+function getPastTrips(id, user) {
+  let alltrips = tripRepo.allTrips
+  let filtered = alltrips.filter(trip => trip.userID === id)
+  user.addPastTrips(filtered)
+  domUpdates.showPastTrips(user, allDestinations)
+}
+
+function createTripRepo(data) {
+  tripRepo = new TripRepo(data)
+}
+
 
 function login() {
   let name = loginUserName.value
@@ -36,17 +103,23 @@ function login() {
 }
 
 function offLogin(destination) {
-loginWindow.classList.add('hide')
-destination.classList.remove('hide')
+  loginWindow.classList.add('hide')
+  destination.classList.remove('hide')
 }
 
 function agencyLogin() {
-offLogin(agencyDash)
+  offLogin(agencyDash)
+// need a fetch for agent
 }
 
 function travelerLogin() {
-offLogin(travelerDash)
+  let id = loginUserName.value.slice(-2)
+  offLogin(travelerDash)
+  getSingleUser(id)
+  getAllDestinations()
 }
+
+
 
 // username: agency
 // password: travel2020

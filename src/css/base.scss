@@ -1,6 +1,17 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
+$box-gradient: linear-gradient(to bottom right, #B3ACAC 0%, #CCFFFF 91%);
 $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
 ;
+
+@mixin card-style() {
+  display: flex;
+  flex-direction: column;
+  background: $box-gradient;
+  height: 450px;
+  width: 450px;
+  justify-content: space-evenly;
+  padding: 25px;
+}
 
 body {
   background: $primary-background;
@@ -9,13 +20,7 @@ body {
 }
 
 .login-window {
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(to bottom right, #B3ACAC 0%, #CCFFFF 91%);
-  height: 450px;
-  width: 450px;
-  justify-content: space-evenly;
-  padding: 25px;
+@include card-style();
 }
 
 .text-holder {
@@ -28,9 +33,20 @@ body {
   align-self: center;
 }
 
-.login-username, .login-password, .login-btn {
+.login-username,
+.login-password,
+.login-btn,
+.traveler-finance-btn {
   font-size: 30px;
   height: 35px;
+}
+
+.trips-card {
+@include card-style();
+}
+
+.agency-dash {
+@include card-style();
 }
 
 .hide {
