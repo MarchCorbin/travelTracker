@@ -3,6 +3,6 @@ class Agent {
     this.id = 0
     this.name = name
     this.pendingTrips = []
-    this.userRepo = []
+    this.userRepos = []
   }
 }

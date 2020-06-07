@@ -17,10 +17,35 @@
       <input class="login-password" type="password" placeholder="Password">
       <button class="login-btn">SIGN IN</button>
     </section>
-    <section class="traveler-dash hide"><h1>Traveler</h1></section>
-    <section class="agency-dash hide"><h1>Agency</h1></section>
+    <section class="traveler-dash hide"><h1>Traveler</h1>
+      <h1 class='welcome-traveler'></h1>
+      <div class="trips-card">
+        <h3>Past Trips:</h3>
+        <div class="past-trips"></div>
+        <h3>Present Trip:</h3>
+        <div class="present-trips"></div>
+        <h3>Upcoming Trips:</h3>
+        <div class="future-trips"></div>
+        <h3>Pending Trips:</h3>
+        <div class="pending-trips"></div>
+        <h3 class="cost-text">Total Spent on Travel This Year:</h3>
+        <div class="travel-spent"></div>
+    </section>
+    <section class="agency-dash hide"><h1>Agency</h1>
+      <h1>Welcome Agent</h1>
+      <div class="agent-card">
+        <h3>Pending Trip Requests:</h3>
+        <div class="pending-trips"></div>
+        <h3>Total Income Generated This Year:</h3>
+        <div class="total-income"></div>
+        <h3>Travelers Currently on Trips:</h3>
+        <div class="travelers-on-trips"></div>
+      </div>
+    </section>
 
 
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
   </body>
 </html>
+
+
