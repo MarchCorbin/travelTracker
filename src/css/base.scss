@@ -42,7 +42,13 @@ body {
 }
 
 .trips-card {
-@include card-style();
+display: flex;
+flex-direction: column;
+background: $box-gradient;
+height: 550px;
+width: 450px;
+justify-content: space-evenly;
+padding: 25px;
 }
 
 .agency-dash {
@@ -51,4 +57,23 @@ body {
 
 .hide {
   display: none;
+}
+//  VACATION DISPLAYS
+.past-trips, .present-trips, .future-trips, .pending-trips {
+display: flex;
+overflow: scroll;
+}
+
+.location-img {
+height: 150px;
+width: auto;
+}
+
+.vacation-box {
+  height: 200px;
+}
+
+.cost-text {
+  display: inline-block;
+  margin-top: 0px;
 }

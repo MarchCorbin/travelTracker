@@ -69,23 +69,25 @@ function createTravelersRepo(travelersData) {
 
 }
 
+function createDestinationRepo(destinations) {
+  allDestinations = destinations
+}
+
 function createNewUser(data) {
   let user = new User(data)
   getPastTrips(data.id, user)
   domUpdates.welcomeMsg(user)
   user.oraganizeTime()
+  domUpdates.showPastTrips(user, allDestinations)
+
 }
 
 
-function createDestinationRepo(destinations) {
-allDestinations = destinations
-}
 
 function getPastTrips(id, user) {
   let alltrips = tripRepo.allTrips
   let filtered = alltrips.filter(trip => trip.userID === id)
   user.allTrips = filtered
-  domUpdates.showPastTrips(user, allDestinations)
 }
 
 function createTripRepo(data) {
