@@ -7,8 +7,8 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
   display: flex;
   flex-direction: column;
   background: $box-gradient;
-  height: 450px;
-  width: 450px;
+  height: 550px;
+  width: 550px;
   justify-content: space-evenly;
   padding: 25px;
 }
@@ -46,7 +46,7 @@ display: flex;
 flex-direction: column;
 background: $box-gradient;
 height: 550px;
-width: 450px;
+width: 550px;
 justify-content: space-evenly;
 padding: 25px;
 }
@@ -77,3 +77,14 @@ width: auto;
   display: inline-block;
   margin-top: 0px;
 }
+
+.agent-card {
+display:flex;
+overflow: scroll;
+}
+
+.pending-box {
+  margin:10px;
+  border-bottom:2px solid black;
+}
+

@@ -1,6 +1,6 @@
 class TravelerRepo {
   constructor(userData) {
-    this.allData = userData
+    this.userData = userData
   }
 
 }

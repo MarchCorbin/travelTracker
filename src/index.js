@@ -5,6 +5,7 @@
 var User = require('./User.js')
 var TravelerRepo = require('./Traveler-repo.js')
 var TripRepo = require('./Trip-repo.js')
+var Agency = require('./Agency.js')
 import './css/base.scss';
 
 
@@ -21,11 +22,21 @@ const loginBtn = document.querySelector('.login-btn')
 const travelerDash = document.querySelector('.traveler-dash')
 const agencyDash = document.querySelector('.agency-dash')
 
+agencyDash.addEventListener('click', function(event) {
+  let idNum = Number(event.target.dataset.id)
+  let status = event.target.dataset.status
+  if (event.target.classList.contains('accepting')) {
+    modifySingleTrip(idNum, status)
+  }
+})
 loginBtn.addEventListener('click', login)
+// acceptBtn.addEventListener('click', modifySingleTrip())
+
 let user;
-let travelerRepo;
+let travelersRepo;
 let tripRepo;
 let allDestinations;
+let agency;
 
 document.onLoad = onLoadHandler()
 
@@ -33,12 +44,32 @@ function onLoadHandler() {
   getAllTrips()
   getAllDestinations()
   getAllTravelers()
+  // modifySingleTrip()
 }
 
 function getAllTrips() {
   fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/trips/trips')
     .then(response => response.json())
     .then(trip => createTripRepo(trip.trips))
+    .catch(err => console.error(err.message))
+}
+ 
+function modifySingleTrip(id, status) {
+  fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/trips/updateTrip', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    }, 
+    body: JSON.stringify({
+       id,
+      status
+
+    })
+
+  })
+
+    .then(response => response.json())
+    .then(trip => console.log(trip, 'trip'))
     .catch(err => console.error(err.message))
 }
 
@@ -64,8 +95,7 @@ function getAllDestinations() {
 }
 
 function createTravelersRepo(travelersData) {
-  const travelersRepo = new TravelerRepo(travelersData)
-  domUpdates.getAllTrips(travelersRepo)
+  travelersRepo = new TravelerRepo(travelersData)
 
 }
 
@@ -92,7 +122,6 @@ function getPastTrips(id, user) {
 
 function createTripRepo(data) {
   tripRepo = new TripRepo(data)
-
 }
 
 // LOG IN
@@ -115,7 +144,12 @@ function offLogin(destination) {
 
 function agencyLogin() {
   offLogin(agencyDash)
-// need a fetch for agent
+  let agency = new Agency()
+  agency.userRepos = travelersRepo
+  agency.destinationRepo = allDestinations
+  agency.tripRepo = tripRepo
+  agency.fixDates()
+  domUpdates.showPendingTripsAll(agency)
 }
 
 function travelerLogin() {

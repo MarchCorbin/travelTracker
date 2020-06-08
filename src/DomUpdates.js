@@ -95,8 +95,31 @@ let domUpdates = {
     console.log(grandTotal, 'grandtotal');
     const travelSpent = document.querySelector('.travel-spent')
     travelSpent.insertAdjacentHTML("beforebegin", `<h2 class=cost-text>$${grandTotal}</h2>`)
-  }
+  }, 
+
+  showPendingTripsAll(agency) {
+    let allPendingTrips = agency.pendingTrips.map(trip => { 
+      let destination = agency.destinationRepo.find(destination => destination.id === trip.destinationID)
+      let traveler = agency.userRepos.userData.find(user => user.id === trip.userID)
+      destination['tripID'] = trip.id
+      destination['name'] = traveler.name
+      destination['numOfTravs'] = trip.travelers
+
+      return destination
+    })
+    let pendingTripsSection = document.querySelector('.pending-trips-agent')
+    console.log(pendingTripsSection, 'pendingsection');
+    
+    allPendingTrips.forEach(trip => {
+      console.log(trip)
+      pendingTripsSection.insertAdjacentHTML('afterbegin', `
+     <section class="pending-box">ID:${trip.tripID}<br>Name:${trip.name}<br>Where to:${trip.destination}<br># of travelers:${trip.numOfTravs}<button data-id ="${trip.tripID}" data-status="approved" class="accepting">Accept</button><button class="delete">Deny</button></section>
+      `)
+    })
+
+
   
-};
+  }
+}
 
 export default domUpdates;
