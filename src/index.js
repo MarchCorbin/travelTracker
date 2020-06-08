@@ -27,10 +27,13 @@ agencyDash.addEventListener('click', function(event) {
   let status = event.target.dataset.status
   if (event.target.classList.contains('accepting')) {
     modifySingleTrip(idNum, status)
+  } else if (event.target.classList.contains('delete')) {
+    deleteTrip(idNum)
   }
 })
 loginBtn.addEventListener('click', login)
-// acceptBtn.addEventListener('click', modifySingleTrip())
+
+
 
 let user;
 let travelersRepo;
@@ -71,6 +74,10 @@ function modifySingleTrip(id, status) {
     .then(response => response.json())
     .then(trip => console.log(trip, 'trip'))
     .catch(err => console.error(err.message))
+}
+
+function deleteTrip(idNum) {
+
 }
 
 function getAllTravelers() {
