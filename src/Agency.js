@@ -26,8 +26,6 @@ class Agency {
     })
     let filtered =  givenDates.filter(trip => trip.status === 'pending')
     this.pendingTrips = filtered
-    console.log(this.pendingTrips);
-    
   }
 
 

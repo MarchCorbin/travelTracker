@@ -23,9 +23,34 @@ body {
 @include card-style();
 }
 
+.costs-page {
+  @include card-style();
+}
+
+.request-input {
+  height:35px;
+  font-size: 15px;
+}
+
+.submit-btn {
+  height: 30px;
+  margin-top: 60px;
+  font-size: 20px;
+}
+
+.traveler-request-form {
+  @include card-style();
+  justify-content: start;
+}
+
 .text-holder {
   display: flex;
   flex-direction: column;
+}
+
+.country-choice {
+  height: 30px;
+  font-size: 15px;
 }
 
 .login-text {

@@ -22,6 +22,13 @@ const loginBtn = document.querySelector('.login-btn')
 const travelerDash = document.querySelector('.traveler-dash')
 const agencyDash = document.querySelector('.agency-dash')
 const requestTripBtn = document.querySelector('.request-trip-btn')
+const submitBtn = document.querySelector('.submit-btn')
+const submitTrip = document.querySelector('.submit-trip')
+const costsPage = document.querySelector('.costs-page')
+const travelSpent = document.querySelector('.travel-spent')
+
+
+
 
 agencyDash.addEventListener('click', function(event) {
   let idNum = Number(event.target.dataset.id)
@@ -33,6 +40,14 @@ agencyDash.addEventListener('click', function(event) {
   }
 })
 loginBtn.addEventListener('click', login)
+requestTripBtn.addEventListener('click', requestTrip)
+submitBtn.addEventListener('click', requestTripSubmit)
+submitTrip.addEventListener('click', function() {
+  travelerDash.classList.remove('hide')
+  costsPage.classList.add('hide')
+  travelSpent.innerHTML = ''
+  domUpdates.showPendingTrips(user, allDestinations)
+})
 
 
 
@@ -41,6 +56,8 @@ let travelersRepo;
 let tripRepo;
 let allDestinations;
 let agency;
+let allTrips
+let id;
 
 document.onLoad = onLoadHandler()
 
@@ -48,7 +65,6 @@ function onLoadHandler() {
   getAllTrips()
   getAllDestinations()
   getAllTravelers()
-  // modifySingleTrip()
 }
 
 function getAllTrips() {
@@ -86,10 +102,33 @@ function modifySingleTrip(id, status) {
   })
     .then(response => response.json())
     .then(trip => console.log(trip, 'trip'))
-    .catch(err => console.error(err.message))
+    .catch(err => console.error(err.message))  
 }
 
 
+function updateTripData(country, givDate, duration, userInfo, numTravs) {
+  fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/trips/trips', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      "id": Date.now(),
+      "userID": userInfo.userID,
+      "destinationID": Number(country),
+      "travelers": Number(numTravs),
+      "date": `${givDate}`,
+      "duration": Number(duration),
+      "status": "pending", 
+      "suggestedActivities": []
+    })
+  })
+    .then(response => response.json())
+    .then(trip => console.log(trip, 'trip'))
+    .catch(err => console.error(err.message))
+
+    
+}
 
 function getAllTravelers() {
   fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/travelers/travelers')
@@ -97,6 +136,8 @@ function getAllTravelers() {
     .then(data => createTravelersRepo(data.travelers))
     .catch(err => console.error(err.message))
 }
+
+
 
 function getSingleUser(id) {
   fetch(`https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/travelers/travelers/${id}`)
@@ -114,7 +155,6 @@ function getAllDestinations() {
 
 function createTravelersRepo(travelersData) {
   travelersRepo = new TravelerRepo(travelersData)
-
 }
 
 function createDestinationRepo(destinations) {
@@ -122,19 +162,18 @@ function createDestinationRepo(destinations) {
 }
 
 function createNewUser(data) {
-  let user = new User(data)
+  user = new User(data)
   getPastTrips(data.id, user)
   domUpdates.welcomeMsg(user)
   user.oraganizeTime()
-  domUpdates.showPastTrips(user, allDestinations)
+  domUpdates.populateUser(user, allDestinations)
 
 }
 
-
-
 function getPastTrips(id, user) {
-  let alltrips = tripRepo.allTrips
-  let filtered = alltrips.filter(trip => trip.userID === id)
+  console.log(id, 'id')
+  allTrips = tripRepo.allTrips
+  let filtered = allTrips.filter(trip => trip.userID == id)
   user.allTrips = filtered
 }
 
@@ -162,7 +201,7 @@ function offLogin(destination) {
 
 function agencyLogin() {
   offLogin(agencyDash)
-  let agency = new Agency()
+  agency = new Agency()
   agency.userRepos = travelersRepo
   agency.destinationRepo = allDestinations
   agency.tripRepo = tripRepo
@@ -171,16 +210,44 @@ function agencyLogin() {
 }
 
 function travelerLogin() {
-  let id = loginUserName.value.slice(8)
+  id = loginUserName.value.slice(8)
   offLogin(travelerDash)
   getSingleUser(id)
   getAllDestinations()
 }
 
+function requestTrip() {
+  const travelerRequestForm = document.querySelector('.traveler-request-form')
+  travelerRequestForm.classList.remove('hide')
+  travelerDash.classList.add('hide')
+}
+
+function requestTripSubmit() {
+  const countryChoice = document.querySelector('.country-choice')
+  const inputDuration = document.querySelector('.duration')
+  const inputDate = document.querySelector('.date')
+  const numTravs = document.querySelector('.num-of-travs')
+  let country = countryChoice.value
+  let date = inputDate.value
+  let duration = inputDuration.value
+  let numTravelers = numTravs.value
+  let userInfo = tripRepo.allTrips.find(trip => trip.userID === user.id)
+  let newDate = date.split('-').join('/')
+  updateTripData(country, newDate, duration, userInfo, numTravelers)
+  domUpdates.updateTrips(country, newDate, duration, userInfo, allDestinations, numTravelers)
+  updatePending(country, newDate, duration, userInfo,  numTravelers)
+}
 
 
-// username: agency
-// password: travel2020
-
-// username: traveler50(where 50 is the ID of the user)
-// password: travel2020
+function updatePending(country, givDate, duration, userInfo, numTravs) {
+  user.pendingTrips = []
+  user.pendingTrips.push({
+    "id": Date.now(),
+    "userID": Number(userInfo.userID),
+    "destinationID": Number(country),
+    "travelers": Number(numTravs),
+    "date": givDate,
+    "duration": Number(duration),
+    "status": "pending", 
+    "suggestedActivities": []})
+}
