@@ -7,8 +7,8 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
   display: flex;
   flex-direction: column;
   background: $box-gradient;
-  height: 450px;
-  width: 450px;
+  height: 550px;
+  width: 550px;
   justify-content: space-evenly;
   padding: 25px;
 }
@@ -23,9 +23,34 @@ body {
 @include card-style();
 }
 
+.costs-page {
+  @include card-style();
+}
+
+.request-input {
+  height:35px;
+  font-size: 15px;
+}
+
+.submit-btn {
+  height: 30px;
+  margin-top: 60px;
+  font-size: 20px;
+}
+
+.traveler-request-form {
+  @include card-style();
+  justify-content: start;
+}
+
 .text-holder {
   display: flex;
   flex-direction: column;
+}
+
+.country-choice {
+  height: 30px;
+  font-size: 15px;
 }
 
 .login-text {
@@ -45,8 +70,8 @@ body {
 display: flex;
 flex-direction: column;
 background: $box-gradient;
-height: 550px;
-width: 450px;
+height: 750px;
+width: 550px;
 justify-content: space-evenly;
 padding: 25px;
 }
@@ -60,13 +85,19 @@ padding: 25px;
 }
 //  VACATION DISPLAYS
 .past-trips, .present-trips, .future-trips, .pending-trips {
-display: flex;
-overflow: scroll;
+  display: flex;
+  overflow: scroll;
 }
 
 .location-img {
-height: 150px;
-width: auto;
+  height: 150px;
+  width: auto;
+}
+
+.request-trip-btn {
+  height: 40px;
+  font-size: 30px;
+  background: linear-gradient(to bottom right, #33ccff 0%, #ffffff 99%);;;
 }
 
 .vacation-box {
@@ -77,3 +108,20 @@ width: auto;
   display: inline-block;
   margin-top: 0px;
 }
+
+.agent-card {
+display:flex;
+overflow: scroll;
+}
+
+.pending-box {
+  margin:10px;
+  border-bottom:2px solid black;
+}
+
+.travelers-on-trips {
+  display:flex;
+  overflow: scroll;
+  height: 50px;
+}
+
