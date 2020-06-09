@@ -21,6 +21,7 @@ const loginPassword = document.querySelector('.login-password')
 const loginBtn = document.querySelector('.login-btn')
 const travelerDash = document.querySelector('.traveler-dash')
 const agencyDash = document.querySelector('.agency-dash')
+const requestTripBtn = document.querySelector('.request-trip-btn')
 
 agencyDash.addEventListener('click', function(event) {
   let idNum = Number(event.target.dataset.id)
@@ -56,6 +57,21 @@ function getAllTrips() {
     .then(trip => createTripRepo(trip.trips))
     .catch(err => console.error(err.message))
 }
+
+function deleteTrip(idNum) {
+  fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/trips/trips', {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    }, 
+    body: JSON.stringify({
+      "id": idNum
+    })
+  })
+    .then(response => response.json())
+    .then(trip => console.log(trip, 'trip'))
+    .catch(err => console.error(err.message))
+}
  
 function modifySingleTrip(id, status) {
   fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/trips/updateTrip', {
@@ -64,21 +80,16 @@ function modifySingleTrip(id, status) {
       "Content-Type": "application/json"
     }, 
     body: JSON.stringify({
-       id,
+      id,
       status
-
     })
-
   })
-
     .then(response => response.json())
     .then(trip => console.log(trip, 'trip'))
     .catch(err => console.error(err.message))
 }
 
-function deleteTrip(idNum) {
 
-}
 
 function getAllTravelers() {
   fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/travelers/travelers')

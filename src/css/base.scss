@@ -45,7 +45,7 @@ body {
 display: flex;
 flex-direction: column;
 background: $box-gradient;
-height: 550px;
+height: 750px;
 width: 550px;
 justify-content: space-evenly;
 padding: 25px;
@@ -60,13 +60,19 @@ padding: 25px;
 }
 //  VACATION DISPLAYS
 .past-trips, .present-trips, .future-trips, .pending-trips {
-display: flex;
-overflow: scroll;
+  display: flex;
+  overflow: scroll;
 }
 
 .location-img {
-height: 150px;
-width: auto;
+  height: 150px;
+  width: auto;
+}
+
+.request-trip-btn {
+  height: 40px;
+  font-size: 30px;
+  background: linear-gradient(to bottom right, #33ccff 0%, #ffffff 99%);;;
 }
 
 .vacation-box {
@@ -86,5 +92,11 @@ overflow: scroll;
 .pending-box {
   margin:10px;
   border-bottom:2px solid black;
+}
+
+.travelers-on-trips {
+  display:flex;
+  overflow: scroll;
+  height: 50px;
 }
 

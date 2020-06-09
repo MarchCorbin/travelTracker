@@ -104,22 +104,62 @@ let domUpdates = {
       destination['tripID'] = trip.id
       destination['name'] = traveler.name
       destination['numOfTravs'] = trip.travelers
-
       return destination
     })
     let pendingTripsSection = document.querySelector('.pending-trips-agent')
-    console.log(pendingTripsSection, 'pendingsection');
-    
     allPendingTrips.forEach(trip => {
-      console.log(trip)
       pendingTripsSection.insertAdjacentHTML('afterbegin', `
-     <section class="pending-box">ID:${trip.tripID}<br>Name:${trip.name}<br>Where to:${trip.destination}<br># of travelers:${trip.numOfTravs}<button data-id ="${trip.tripID}" data-status="approved" class="accepting">Accept</button><button class="delete">Deny</button></section>
+     <section class="pending-box">ID:${trip.tripID}<br>Name:${trip.name}<br>Where to:${trip.destination}<br># of travelers:${trip.numOfTravs}<button data-id ="${trip.tripID}" data-status="approved" class="accepting">Accept</button><button data-id="${trip.tripID}" class="delete">Deny</button></section>
       `)
     })
+    this.showTodayTravelers(agency)
+  },
+
+  showTodayTravelers(agency) {
+    let travsOnTrips = document.querySelector('.travelers-on-trips')
+    let currentDate = new Date().setHours(0, 0, 0, 0);
+    currentDate = currentDate.valueOf()
+    let result = agency.tripRepo.allTrips.filter(trip => {
+      let givDate = new Date(trip.date).valueOf()
+      if (givDate === currentDate) {
+        return true
+      }
+    })
+    let destination = agency.destinationRepo.filter(place => place.id === result[0].destinationID)
+    let ourName = agency.userRepos.userData.filter(person => result[0].userID === person.id)
+    result.forEach(trav => {
+      travsOnTrips.insertAdjacentHTML("afterbegin", `Today ${ourName[0].name} is currently in ${destination[0].destination}!
+     `)
+    })
+    this.showAgencyGrandTotal(agency)
+  },
+  showAgencyGrandTotal(agency) {
+    const totalIncome = document.querySelector('.total-income')
+    let currentDate = new Date().setHours(0, 0, 0, 0);
+    let currentYear = new Date().getFullYear().valueOf()
+    currentDate = currentDate.valueOf()
+    console.log(agency.destinationRepo, 'destinationrepo');
+    let thisYearTrips = agency.tripRepo.allTrips.filter(trip => {
+      let givenYear = trip.date.split('/')
+      if (currentYear == givenYear[2]) {
+        return true
+      }
+    })
+    let totaling = thisYearTrips.map(trip => {
+      let where = agency.destinationRepo.find(location => location.id === trip.destinationID)
+      let flightCost = where.estimatedFlightCostPerPerson *= trip.travelers
+      let lodgingCost = where.estimatedLodgingCostPerDay *= trip.duration
+      return flightCost += lodgingCost
+    })
+    let grandTotal = totaling.reduce((a, b) => a += b, 0)
+    let agencyTotal = Math.floor(grandTotal / 10)
+    totalIncome.insertAdjacentHTML("afterbegin", `
+      <h3>$${Number(agencyTotal)}</h3>
+      `)
+      
+  },
 
 
-  
-  }
 }
 
 export default domUpdates;

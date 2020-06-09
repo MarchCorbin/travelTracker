@@ -11,9 +11,6 @@ class Agency {
       let splitter = trip.date.split('/')
       let goodDate = `${splitter[1]}/${splitter[2]}/${splitter[0]}`
       trip.date = goodDate
-      // console.log(this.pendingTrips, 'pending')
-      // console.log(this.userRepos, 'userrepos')
-      // console.log(this.tripRepo, 'triprepos');
     })
     this.addPending()
   }
