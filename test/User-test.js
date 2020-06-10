@@ -34,6 +34,7 @@ describe('User', function() {
   it('should be a function', function() {
     expect(User).to.be.a('function')
   })
+  
   it('should have the id for the user', function() {
     expect(user1.id).to.equal(5)
   })
@@ -41,6 +42,7 @@ describe('User', function() {
   it('should recognize the users name', function() {
     expect(user1.name).to.equal('Tiffy Grout')
   })
+
   it('should be able to organize dates so they are readable', function() {
     user.organizeTime()
     expect(allTrips.date).to.equal("2019/08/30")

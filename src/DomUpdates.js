@@ -64,6 +64,7 @@ let domUpdates = {
       })
     }     
   },
+  
   showPendingTrips(user, allDestinations) {
     const destIDs = user.pendingTrips.map(trip => trip.destinationID)
     const userTrips = allDestinations.filter(trip => {
@@ -73,7 +74,6 @@ let domUpdates = {
     })
     const pendingTrips = document.querySelector('.pending-trips')
     userTrips.forEach(trip => {
-      console.log(user.pendingTrips, 'trip');
       if (trip !== undefined) {
         pendingTrips.insertAdjacentHTML('afterbegin', `
     <section class="vacation-box">
@@ -104,8 +104,6 @@ let domUpdates = {
     }
     let percent = sum * 0.1
     let grandTotal = sum += percent
-    console.log(grandTotal, 'grandtotal');
-    
     if (!grandTotal == 0) {
       travelSpent.insertAdjacentHTML("beforebegin", `<h2 class=cost-text>$${grandTotal}</h2>`)
     }
@@ -121,7 +119,6 @@ let domUpdates = {
       destination['numOfTravs'] = trip.travelers
       return destination
     })
-   
     allPendingTrips.forEach(trip => {
       pendingTripsSection.insertAdjacentHTML('afterbegin', `
      <section class="pending-box">ID:${trip.tripID}<br>Name:${trip.name}<br>Where to:${trip.destination}<br># of travelers:${trip.numOfTravs}<button data-id ="${trip.tripID}" data-status="approved" class="accepting">Accept</button><button data-id="${trip.tripID}" class="delete">Deny</button></section>
@@ -148,6 +145,7 @@ let domUpdates = {
     })
     this.showAgencyGrandTotal(agency)
   },
+
   showAgencyGrandTotal(agency) {
     const totalIncome = document.querySelector('.total-income')
     let currentDate = new Date().setHours(0, 0, 0, 0);
@@ -171,7 +169,8 @@ let domUpdates = {
       <h3>$${Number(agencyTotal)}</h3>
       `)
   },
-  updateTrips(country, duration, allDestinations, numTravs) {
+
+  updateTripsFinancials(country, duration, allDestinations, numTravs) {
     const requestForm = document.querySelector('.traveler-request-form')
     const costsPage = document.querySelector('.costs-page')
     requestForm.classList.add('hide')

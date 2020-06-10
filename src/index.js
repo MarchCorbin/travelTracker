@@ -1,19 +1,14 @@
 // This is the JavaScript entry file - your code begins here
 // Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 var User = require('./User.js')
 var TravelerRepo = require('./Traveler-repo.js')
 var TripRepo = require('./Trip-repo.js')
 var Agency = require('./Agency.js')
 import './css/base.scss';
-
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
 import domUpdates from './DomUpdates';
 
 console.log('This is the JavaScript entry file - your code begins here.');
+
 // QUERY SELECTORS
 const loginWindow = document.querySelector('.login-window')
 const loginUserName = document.querySelector('.login-username')
@@ -163,7 +158,6 @@ function createNewUser(data) {
 }
 
 function getPastTrips(id, user) {
-  console.log(id, 'id')
   allTrips = tripRepo.allTrips
   let filtered = allTrips.filter(trip => trip.userID == id)
   user.allTrips = filtered
@@ -234,7 +228,7 @@ function requestTripSubmit() {
   let userInfo = tripRepo.allTrips.find(trip => trip.userID === user.id)
   let newDate = date.split('-').join('/')
   updateTripData(country, newDate, duration, userInfo, numTravelers)
-  domUpdates.updateTrips(country, duration, allDestinations, numTravelers)
+  domUpdates.updateTripsFinancials(country, duration, allDestinations, numTravelers)
   updatePending(country, newDate, duration, userInfo,  numTravelers)
 }
 

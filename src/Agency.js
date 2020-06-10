@@ -27,9 +27,6 @@ class Agency {
     let filtered =  givenDates.filter(trip => trip.status === 'pending')
     this.pendingTrips = filtered
   }
-
-
-
 }
 
 module.exports = Agency;
