@@ -5,7 +5,7 @@
 ## Brief Overview
 This is a trip planning app that is both accessible by people who are travel enthusiasts as well as their travel agents. Agents and travelers have two seperate interfaces that allow them different priveleges. Both websites communicate and affect one another so that each user when logging in gets the most up to date information available.
 
-As a user, after logging in they will be able to keep track of all their past, pending and upcoming trips. The user will also be able to plan for a new and upcoming trip and specify where they want to go, when and how many people they will bring along. The app will then instantly create an estimated cost for the user and send the planned trip off to the agent for further inspection.
+As a user, after logging in they will be able to keep track of all their past, pending and upcoming trips. The user will also be able to plan for a new upcoming trip, specify where they want to go, when and how many people they will bring along. The app will then instantly create an estimated cost for the user and send the planned trip off to the agent for further inspection.
 
  As an agent, one will be able to see what their gross total is for the entire year as well as an up to date list of all the travelers planning a new trip. An agent can approve or reject any of the pending trips and will then update on the users corresponding side. 
  
