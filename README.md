@@ -54,6 +54,6 @@ In your browser, navigate to localhost:8080.
 * Learn the importance of not only planning of project timelines but also the structure in which data will be organized
 
 ## Project in Action
-![iteration1](screens/Iteration 1.png)
+![Iteration1](screens/Iteration 1.png)
 ![Traveler interface](screens/2020-06-09 20.45.38.gif)
 ![Planning interface](screens/2020-06-09 20.45.38.gif)
