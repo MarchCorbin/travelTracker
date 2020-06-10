@@ -9,8 +9,8 @@ class User {
     this.futureTrips = []
     this.pendingTrips = []
   }
-  oraganizeTime() {
-    let mapped = this.allTrips.map(trip => {
+  organizeTime() {
+    this.allTrips.map(trip => {
       let splitter = trip.date.split('/')
       let goodDate = `${splitter[1]}/${splitter[2]}/${splitter[0]}`
       trip.date = goodDate

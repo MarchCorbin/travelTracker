@@ -83,41 +83,36 @@ let domUpdates = {
     })
   },
 
-  showPendingTripsUpdate(user, allDestinations) {
-    const pendingTrips = document.querySelector('.pending-trips')
-    user.pendingTrips.forEach(trip => {
-      console.log(allDestinations, 'trip');
-      if (allDestinations.id === trip.destinationID) {
-        pendingTrips.insertAdjacentHTML('afterbegin', `
-    <section class="vacation-box">
-      <h4 class="destination-text">${trip.destination}</h4>
-      <img class="location-img"src="${trip.image}" alt="location image"></section>`)
-      } 
-    })
-  },
-
   showFinancials(user, allTrips) {
     const travelSpent = document.querySelector('.travel-spent')
     let numTravs = user.allTrips.map(trip => trip.travelers)
+    let numDuration = user.allTrips.map(trip => trip.duration)
     const destIDs = user.allTrips.map(trip => trip.destinationID)
     const userTrips = allTrips.filter(trip => {
       if (destIDs.includes(trip.id)) {
         return trip
       }
     })
+    let costPerLodging = userTrips.map(trip => trip.estimatedLodgingCostPerDay)
     let costPerPerson = userTrips.map(trip => trip.estimatedFlightCostPerPerson)
     var sum = 0;
     for (var i = 0; i < costPerPerson.length; i++) {
-      sum += costPerPerson[i] * numTravs[i];
+      sum += costPerPerson[i] * numTravs[i]  
+    }
+    for (var i = 0; i < numDuration.length; i++) {
+      sum += numDuration[i] * costPerLodging[i]
     }
     let percent = sum * 0.1
     let grandTotal = sum += percent
+    console.log(grandTotal, 'grandtotal');
+    
     if (!grandTotal == 0) {
       travelSpent.insertAdjacentHTML("beforebegin", `<h2 class=cost-text>$${grandTotal}</h2>`)
     }
   }, 
 
   showPendingTripsAll(agency) {
+    let pendingTripsSection = document.querySelector('.pending-trips-agent')
     let allPendingTrips = agency.pendingTrips.map(trip => { 
       let destination = agency.destinationRepo.find(destination => destination.id === trip.destinationID)
       let traveler = agency.userRepos.userData.find(user => user.id === trip.userID)
@@ -126,7 +121,7 @@ let domUpdates = {
       destination['numOfTravs'] = trip.travelers
       return destination
     })
-    let pendingTripsSection = document.querySelector('.pending-trips-agent')
+   
     allPendingTrips.forEach(trip => {
       pendingTripsSection.insertAdjacentHTML('afterbegin', `
      <section class="pending-box">ID:${trip.tripID}<br>Name:${trip.name}<br>Where to:${trip.destination}<br># of travelers:${trip.numOfTravs}<button data-id ="${trip.tripID}" data-status="approved" class="accepting">Accept</button><button data-id="${trip.tripID}" class="delete">Deny</button></section>
@@ -175,9 +170,8 @@ let domUpdates = {
     totalIncome.insertAdjacentHTML("afterbegin", `
       <h3>$${Number(agencyTotal)}</h3>
       `)
-      
   },
-  updateTrips(country, newDate, duration, userInfo, allDestinations, numTravs) {
+  updateTrips(country, duration, allDestinations, numTravs) {
     const requestForm = document.querySelector('.traveler-request-form')
     const costsPage = document.querySelector('.costs-page')
     requestForm.classList.add('hide')
