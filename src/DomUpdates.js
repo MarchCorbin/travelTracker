@@ -64,7 +64,7 @@ let domUpdates = {
       })
     }     
   },
-  
+
   showPendingTrips(user, allDestinations) {
     const destIDs = user.pendingTrips.map(trip => trip.destinationID)
     const userTrips = allDestinations.filter(trip => {
@@ -137,8 +137,8 @@ let domUpdates = {
         return true
       }
     })
-    let destination = agency.destinationRepo.filter(place => place.id === result[0].destinationID)
-    let ourName = agency.userRepos.userData.filter(person => result[0].userID === person.id)
+    let destination = agency.destinationRepo.filter(place => place.id === result.destinationID)
+    let ourName = agency.userRepos.userData.filter(person => result.userID === person.id)
     result.forEach(trav => {
       travsOnTrips.insertAdjacentHTML("afterbegin", `Today ${ourName[0].name} is currently in ${destination[0].destination}!
      `)
