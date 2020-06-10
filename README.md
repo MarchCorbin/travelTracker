@@ -55,5 +55,7 @@ In your browser, navigate to localhost:8080.
 
 ## Project in Action
 ![Iteration1](screens/Iteration 1.png)
+
 ![Traveler interface](screens/2020-06-09 20.45.38.gif)
+
 ![Planning interface](screens/2020-06-09 20.45.38.gif)
