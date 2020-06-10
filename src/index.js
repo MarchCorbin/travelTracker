@@ -1,20 +1,15 @@
 // This is the JavaScript entry file - your code begins here
 // Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 var User = require('./User.js')
 var TravelerRepo = require('./Traveler-repo.js')
 var TripRepo = require('./Trip-repo.js')
 var Agency = require('./Agency.js')
 import './css/base.scss';
-
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
 import domUpdates from './DomUpdates';
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
+// QUERY SELECTORS
 const loginWindow = document.querySelector('.login-window')
 const loginUserName = document.querySelector('.login-username')
 const loginPassword = document.querySelector('.login-password')
@@ -28,8 +23,11 @@ const costsPage = document.querySelector('.costs-page')
 const travelSpent = document.querySelector('.travel-spent')
 
 
-
-
+// EVENT LISTENERS
+loginBtn.addEventListener('click', login)
+requestTripBtn.addEventListener('click', requestTrip)
+submitBtn.addEventListener('click', requestTripSubmit)
+submitTrip.addEventListener('click', submitTripProtocol)
 agencyDash.addEventListener('click', function(event) {
   let idNum = Number(event.target.dataset.id)
   let status = event.target.dataset.status
@@ -39,18 +37,8 @@ agencyDash.addEventListener('click', function(event) {
     deleteTrip(idNum)
   }
 })
-loginBtn.addEventListener('click', login)
-requestTripBtn.addEventListener('click', requestTrip)
-submitBtn.addEventListener('click', requestTripSubmit)
-submitTrip.addEventListener('click', function() {
-  travelerDash.classList.remove('hide')
-  costsPage.classList.add('hide')
-  travelSpent.innerHTML = ''
-  domUpdates.showPendingTrips(user, allDestinations)
-})
-
-
-
+  
+  
 let user;
 let travelersRepo;
 let tripRepo;
@@ -67,6 +55,8 @@ function onLoadHandler() {
   getAllTravelers()
 }
 
+
+// FETCH AND POST FUNCTIONS
 function getAllTrips() {
   fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/trips/trips')
     .then(response => response.json())
@@ -105,7 +95,6 @@ function modifySingleTrip(id, status) {
     .catch(err => console.error(err.message))  
 }
 
-
 function updateTripData(country, givDate, duration, userInfo, numTravs) {
   fetch('https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/trips/trips', {
     method: "POST",
@@ -125,9 +114,7 @@ function updateTripData(country, givDate, duration, userInfo, numTravs) {
   })
     .then(response => response.json())
     .then(trip => console.log(trip, 'trip'))
-    .catch(err => console.error(err.message))
-
-    
+    .catch(err => console.error(err.message))  
 }
 
 function getAllTravelers() {
@@ -136,8 +123,6 @@ function getAllTravelers() {
     .then(data => createTravelersRepo(data.travelers))
     .catch(err => console.error(err.message))
 }
-
-
 
 function getSingleUser(id) {
   fetch(`https://fe-apps.herokuapp.com/api/v1/travel-tracker/data/travelers/travelers/${id}`)
@@ -153,6 +138,8 @@ function getAllDestinations() {
     .catch(err => console.error(err.message))
 }
 
+
+// CREATE REPOSITORIES
 function createTravelersRepo(travelersData) {
   travelersRepo = new TravelerRepo(travelersData)
 }
@@ -165,13 +152,12 @@ function createNewUser(data) {
   user = new User(data)
   getPastTrips(data.id, user)
   domUpdates.welcomeMsg(user)
-  user.oraganizeTime()
+  user.organizeTime()
   domUpdates.populateUser(user, allDestinations)
 
 }
 
 function getPastTrips(id, user) {
-  console.log(id, 'id')
   allTrips = tripRepo.allTrips
   let filtered = allTrips.filter(trip => trip.userID == id)
   user.allTrips = filtered
@@ -216,10 +202,18 @@ function travelerLogin() {
   getAllDestinations()
 }
 
+// ADDING A NEW TRIP
 function requestTrip() {
   const travelerRequestForm = document.querySelector('.traveler-request-form')
   travelerRequestForm.classList.remove('hide')
   travelerDash.classList.add('hide')
+}
+
+function submitTripProtocol() {
+  travelerDash.classList.remove('hide')
+  costsPage.classList.add('hide')
+  travelSpent.innerHTML = ''
+  domUpdates.showPendingTrips(user, allDestinations)
 }
 
 function requestTripSubmit() {
@@ -234,10 +228,9 @@ function requestTripSubmit() {
   let userInfo = tripRepo.allTrips.find(trip => trip.userID === user.id)
   let newDate = date.split('-').join('/')
   updateTripData(country, newDate, duration, userInfo, numTravelers)
-  domUpdates.updateTrips(country, newDate, duration, userInfo, allDestinations, numTravelers)
+  domUpdates.updateTripsFinancials(country, duration, allDestinations, numTravelers)
   updatePending(country, newDate, duration, userInfo,  numTravelers)
 }
-
 
 function updatePending(country, givDate, duration, userInfo, numTravs) {
   user.pendingTrips = []
