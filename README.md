@@ -44,7 +44,7 @@ In your browser, navigate to localhost:8080.
 - TDD
 
 ## Challenges
-* Producing the financial informartion for both the user and the agent was a challenge
+* Producing the financial information for both the user and the agent was a challenge
 * Updating the pictures and data after a user had manipulated it proved to be very time consuming
 * Unfortunately I did not get to develop the search functionality for the project, this would be the first thing to be added on if given more time
 
